@@ -21,7 +21,6 @@ services:
     image: esac/nginx:0.0.15
     volumes:
       - laravel_public_folder:/var/www/public
-      - ./storage/logs/:/var/log/nginx
       - ./storage/app/public/:/var/www/public/storage
       - ./certs/conf:/etc/letsencrypt
       - ./certs/www:/var/www/certbot
