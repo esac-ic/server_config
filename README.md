@@ -20,7 +20,8 @@ Certificaten komen van [LetsEncrypt](https://letsencrypt.org/) een project wat g
 	./init-letsenscript.sh
 
 3. kopieer de mysql en de /storage van de backup server
-4. start de server
+4. configureer mysql
+5. start de server
 
 	docker-compose up -d
 
