@@ -10,6 +10,16 @@ De docker compose start 3 containers op inclusief een cache. de containers zijn 
 ## Certificaten
 Certificaten komen van [LetsEncrypt](https://letsencrypt.org/) een project wat gratis ssl certificaten verstrekt om het internet veiliger te maken. Certificaten aanvragen kan best complex zijn, certificaten vernieuwen word door onze setup automatisch gedaan maar voordat certificaten vernieuwd kunnen worden moet je ze wel eerst hebben. Omdat certificaten niet openbaar mogen zijn zitten ze niet in deze repo, maar we hebben wel een script waarmee je automatisch de certificaten aanmaakt en in de juiste plek opslaat.
 
+## pre install
+Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
+1. installeer [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) en Docker-compose (apt-get install docker-compose)
+2. maak een gebruiker "deploy" en geef deze root access
+3. installeer [mysq](https://www.digitalocean.com/community/questions/mysql-installation-error-dpkg-error-processing-package-mysql-server-5-5-configure) bekijk de url want normaal lukt dit niet op digitalocean
+4. maak root user in database aan: https://stackoverflow.com/questions/5555328/error-1396-hy000-operation-create-user-failed-for-jacklocalhost
+5. maak deploy user aan in database: create user deploy@localhost identified by
+6. geef gebruiker alle rechten GRANT ALL PRIVILEGES ON * . * TO 'deploy'@'localhost';
+7. wijzig de bind op localhost in het interne ip van de server (te vinden met ifconfig eth0) in de file /etc/mysql/mysql.conf.d/mysqld.cnf en herstart mysql: /etc/init.d/mysql restart
+
 ## Server setup, installatie
 1. Clone de repo
 
