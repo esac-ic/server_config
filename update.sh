@@ -5,7 +5,7 @@ RED='\033[0;31m'
 PURPLE='\033[0;35m'
 
 #write command log
-echo $(date) 'update command ran with input: website:'$ESAC_VERSION 'nginx:'$NGINX_VERSION >> 'update_log.txt'
+echo $(date) 'command ran with parameters'$1 ${@:1}  >> 'update_log.txt'
 
 #writes to a file
 if [[ $1 == 'website' ]]
@@ -20,17 +20,22 @@ else
   exit 1
 fi
 
+COMMIT_USER=$3
+COMMIT_MSG=$4
+COMMIT_DATE=$5
+TRAVIS_COMMIT="${@:2}"
+echo $TRAVIS_COMMIT
 
 echo -e $PURPLE'Start of updating server, esac version: '$ESAC_VERSION' and nginx version:' $NGINX_VERSION $NC
 #log to file
-echo $(date) 'website:'$ESAC_VERSION 'nginx:'$NGINX_VERSION >> 'update_log.txt'
+echo $(date) 'website:'$ESAC_VERSION 'nginx:'$NGINX_VERSION 'commit: '$TRAVIS_COMMIT >> 'update_log.txt'
 
 #update versions to file
 echo $ESAC_VERSION > 'versions/website'
 echo $NGINX_VERSION > 'versions/nginx'
 
 #write to versions file exposed on the website
-echo -e 'esac/website:'$ESAC_VERSION '\resac/nginx:'$NGINX_VERSION > 'storage/app/public/versions.txt'
+echo -e 'website image: esac/website:'$ESAC_VERSION '\rnginx image: esac/nginx:'$NGINX_VERSION '\rcommitter: '$COMMIT_USER '\rcommit message:' $COMMIT_MSG '\rcommit date: '$COMMIT_DATE '\rdeploy date: '$(date -R) > 'storage/app/public/versions.txt'
 
 #export to environment variables
 export ESAC_VERSION=$ESAC_VERSION
