@@ -58,7 +58,7 @@ services:
       - MYSQL_PASSWORD=secret
       - MYSQL_ROOT_PASSWORD=secret
     ports:
-      - 3306:33060
+      - 33060:3306
     # redis
   cache:
     image: redis:3.0-alpine
