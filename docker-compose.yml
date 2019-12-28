@@ -10,7 +10,7 @@ services:
       - ./storage:/var/www/storage
       - laravel_public_folder:/var/www/public
     env_file:
-      - ".env.prod"
+      - ".env"
     environment:
       - "REDIS_HOST=cache"
     entrypoint: php-fpm
