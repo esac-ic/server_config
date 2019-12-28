@@ -18,7 +18,7 @@ services:
   # The Web Server
   web:
     container_name: nginx_server
-    image: esac/nginx:0.0.26
+#    image: esac/nginx:0.0.26
     env_file:
       - .env
     build:
