@@ -11,7 +11,7 @@ server {
   listen 80;
 
   # listen on both hosts
-  server_name __domain__ www.esac.nl esac.alpenclub.nl esac.climbing.nl;
+  server_name beta.esac.nl www.esac.nl esac.alpenclub.nl esac.climbing.nl;
 
   # location for certbot to get challenge
   #location /.well-known/acme-challenge/ {
@@ -43,7 +43,7 @@ server {
 
 server {
     listen 443 ssl;
-    server_name __domain__;
+    server_name beta.esac.nl;
     server_tokens off;
 
     ssl_certificate /etc/letsencrypt/live/__domain__/fullchain.pem;
