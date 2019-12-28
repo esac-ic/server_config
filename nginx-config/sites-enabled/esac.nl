@@ -11,12 +11,12 @@ server {
   listen 80;
 
   # listen on both hosts
-  server_name esac.nl www.esac.nl esac.alpenclub.nl esac.climbing.nl;
+  server_name __domain__ www.esac.nl esac.alpenclub.nl esac.climbing.nl;
 
   # location for certbot to get challenge
-  location /.well-known/acme-challenge/ {
-      root /var/www/certbot;
-  }
+  #location /.well-known/acme-challenge/ {
+  #    root /var/www/certbot;
+  #}
   # and redirect to the https host (declared below)
   # avoiding http://www -> https://www -> https:// chain.
   return 301 https://__domain__$request_uri;
@@ -28,7 +28,7 @@ server {
   listen 443 ssl http2;
 
   # listen on the wrong host
-  server_name www.esac.nl;
+  server_name www.__domain__;
 
   #include h5bp/directive-only/ssl.conf;
   include /etc/letsencrypt/options-ssl-nginx.conf;
@@ -43,7 +43,7 @@ server {
 
 server {
     listen 443 ssl;
-    server_name esac.nl;
+    server_name __domain__;
     server_tokens off;
 
     ssl_certificate /etc/letsencrypt/live/__domain__/fullchain.pem;
