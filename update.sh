@@ -35,7 +35,13 @@ echo $ESAC_VERSION > 'versions/website'
 echo $NGINX_VERSION > 'versions/nginx'
 
 #write to versions file exposed on the website
-echo -e 'website image: esac/website:'$ESAC_VERSION '\rnginx image: esac/nginx:'$NGINX_VERSION '\rcommitter: '$COMMIT_USER '\rcommit message:' $COMMIT_MSG '\rcommit date: '$COMMIT_DATE '\rdeploy date: '$(date -R) > 'storage/app/public/versions.txt'
+echo -e 'website image: esac/website:'$ESAC_VERSION \
+'\rnginx image: esac/nginx:'$NGINX_VERSION \
+'\rcommitter: '$COMMIT_USER \
+'\rcommit message:' $COMMIT_MSG \
+'\rcommit date: '$COMMIT_DATE \
+'\rdeploy date: '$(date -R) \
+> 'storage/app/public/versions.txt'
 
 #export to environment variables
 export ESAC_VERSION=$ESAC_VERSION

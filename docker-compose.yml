@@ -19,6 +19,13 @@ services:
   web:
     container_name: nginx_server
     image: esac/nginx:0.0.26
+    env_file:
+      - .env
+    build:
+      context: ./nginx-config
+      dockerfile: Dockerfile
+      args:
+        server_name: ${APP_ENV}
     volumes:
       - laravel_public_folder:/var/www/public
       - ./storage/app/public/:/var/www/public/storage
