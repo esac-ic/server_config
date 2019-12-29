@@ -43,3 +43,13 @@ Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
 command voor setup in laravel container: 
 apt-get -y update && apt-get install -y mariadb-client
 mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE
+
+#todo: 
+backup container maken, schrijft elke dag? uur? mysql database weg naar een file, 
+en tarbal naar backup en packaged dat weer
+
+restore optie maken?
+
+local development docker compose maken met docker-compose.override.yml
+vervangen waardes: nginx, geen  certbot, geen backups
+
