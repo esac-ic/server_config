@@ -43,7 +43,7 @@ server {
 
 server {
     listen 443 ssl;
-    server_name __domain__ test.nl;
+    server_name __domain__;
     server_tokens off;
 
     ssl_certificate /etc/letsencrypt/live/__domain__/fullchain.pem;

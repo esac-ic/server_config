@@ -25,7 +25,7 @@ services:
       context: ./nginx-config
       dockerfile: Dockerfile
       args:
-        server_name: ${APP_ENV}
+        server_name: ${NGINX_DOMAIN}
     volumes:
       - laravel_public_folder:/var/www/public
       - ./storage/app/public/:/var/www/public/storage
