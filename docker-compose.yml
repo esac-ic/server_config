@@ -48,7 +48,7 @@ services:
   database:
     image: mysql:5.7
     volumes:
-      - esac_database6:/var/lib/mysql
+      - esac_database:/var/lib/mysql
     container_name: esac_database
     env_file:
       - .env
