@@ -34,4 +34,12 @@ Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
 5. start de server
 
 	docker-compose up -d
+	
+	
+	
+	
+#start nieuwe docs
 
+command voor setup in laravel container: 
+apt-get -y update && apt-get install -y mariadb-client
+mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE
