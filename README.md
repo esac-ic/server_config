@@ -44,6 +44,8 @@ command voor setup in laravel container:
 apt-get -y update && apt-get install -y mariadb-client
 mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE
 
+chown -R www-data:www-data storage/
+
 #todo: 
 backup container maken, schrijft elke dag? uur? mysql database weg naar een file, 
 en tarbal naar backup en packaged dat weer
