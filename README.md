@@ -46,6 +46,12 @@ mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE
 
 chown -R www-data:www-data storage/
 
+chmod  u+x start.sh
+chmod  u+x update.sh
+
+deploy setup:
+describe setup of ssh keys of deployment
+
 #todo: 
 backup container maken, schrijft elke dag? uur? mysql database weg naar een file, 
 en tarbal naar backup en packaged dat weer
@@ -55,3 +61,5 @@ restore optie maken?
 local development docker compose maken met docker-compose.override.yml
 vervangen waardes: nginx, geen  certbot, geen backups
 
+test ci/cd pipeline with new scripts
+setup ci/cd pipeline for prod

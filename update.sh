@@ -33,7 +33,7 @@ echo -e 'website image: esac/website:'$ESAC_VERSION \
 '\rcommitter: '$COMMIT_USER \
 '\rcommit message:' $COMMIT_MSG \
 '\rcommit date: '$COMMIT_DATE \
-'\rdeploy date: '$(date -R) \
+'\rdeploy date: '$(TZ=CET date -R) \
 > 'storage/app/public/versions.txt'
 
 #export to environment variables
