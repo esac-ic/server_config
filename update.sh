@@ -15,6 +15,7 @@ else
   exit 1
 fi
 
+
 COMMIT_USER=$3
 COMMIT_MSG=$4
 COMMIT_DATE=$5
