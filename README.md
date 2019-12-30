@@ -46,8 +46,8 @@ mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE
 
 chown -R www-data:www-data storage/
 
-chmod  u+x start.sh
-chmod  u+x update.sh
+chmod u+x start.sh
+chmod u+x update.sh
 
 deploy setup:
 describe setup of ssh keys of deployment
