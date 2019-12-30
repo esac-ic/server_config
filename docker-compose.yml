@@ -5,7 +5,7 @@ services:
   #  The Application
   app:
     container_name: laravel_app
-    image: esac/website:0.0.29
+    image: esac/website:$ESAC_VERSION
     volumes:
       - ./storage:/var/www/storage
       - laravel_public_folder:/var/www/public
