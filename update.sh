@@ -18,6 +18,7 @@ fi
 COMMIT_USER=$3
 COMMIT_MSG=$4
 COMMIT_DATE=$5
+COMMIT_BRANCH=$6
 TRAVIS_COMMIT="${@:2}"
 echo $TRAVIS_COMMIT
 
@@ -30,6 +31,7 @@ echo $ESAC_VERSION > 'versions/website'
 
 #write to versions file exposed on the website
 echo -e 'website image: esac/website:'$ESAC_VERSION \
+'\rdeploy branch: '$COMMIT_BRANCH \
 '\rcommitter: '$COMMIT_USER \
 '\rcommit message:' $COMMIT_MSG \
 '\rcommit date: '$COMMIT_DATE \
