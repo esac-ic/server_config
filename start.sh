@@ -15,5 +15,4 @@ export ESAC_VERSION=$ESAC_VERSION
 
 docker-compose up -d
 
-
 echo -e $GREEN'done updating the server'$NC
