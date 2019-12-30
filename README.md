@@ -52,6 +52,8 @@ chmod  u+x update.sh
 deploy setup:
 describe setup of ssh keys of deployment
 
+check latest docker image
+
 #todo: 
 backup container maken, schrijft elke dag? uur? mysql database weg naar een file, 
 en tarbal naar backup en packaged dat weer
