@@ -45,6 +45,13 @@ export ESAC_VERSION=$ESAC_VERSION
 #run docker compose with new values
 docker-compose up -d
 
+#exit the update script of the compose command fails
+dockercomposestatus=$?
+if [dockercomposestatus == 1]
+then
+  exit 1
+fi
+
 echo -e $GREEN'done updating the server'$NC
 echo 'check always up to date versions on: https://beta.esac.nl/storage/versions.txt'
 
