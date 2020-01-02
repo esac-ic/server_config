@@ -47,7 +47,7 @@ docker-compose up -d
 
 #exit the update script of the compose command fails
 dockercomposestatus=$?
-if [dockercomposestatus == 1]
+if [ $dockercomposestatus == '1' ]
 then
   exit 1
 fi
