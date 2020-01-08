@@ -42,6 +42,9 @@ echo -e 'website image: esac/website:'$ESAC_VERSION \
 #export to environment variables
 export ESAC_VERSION=$ESAC_VERSION
 
+#prune the docker images
+docker system prune --all -f
+
 #run docker compose with new values
 docker-compose up -d
 
