@@ -51,11 +51,21 @@ services:
     container_name: esac_database
     env_file:
       - .env
-
+      -
+  #lighthouse ci server
+  lhci:
+    container_name: lhci_server
+    image: patrickhulce/lhci-server
+    volumes:
+      - lhci-data:/data
+    ports:
+      - 9001:9001
     # redis
+
   cache:
     image: redis:3.0-alpine
 
 volumes:
   esac_database:
   laravel_public_folder:
+  lhci-data:
