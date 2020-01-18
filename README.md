@@ -30,9 +30,3 @@ Om ervoor te zorgen dat travis kan deployment naar de productie server heeft tra
 1. maak de ssh key aan: ```ssh-keygen -f prod_key```
 2. sla de private key op in travis encoded met base64: ```cat prod_key | base64``` sla deze waarde op onder ```private_key_productie_server``` in https://travis-ci.org/esac-ic/esac.nl/settings en zorg ervoor dat deze alleen in de master branch gebruikt kan worden
 3. sla de public key op in de ```authorized keys``` op de server met ```cat prod_key.pub | ssh ic@esac.nl 'cat >> .ssh/authorized_keys'```
-
-
-## todo: 
-*  backup container maken, schrijft elke dag? uur? mysql database weg naar een file, en tarbal naar backup en packaged dat weer, mogelijk ook een restore optie
-* local development docker compose maken met docker-compose.override.yml
-vervangen waardes: nginx, geen  certbot, geen backups
