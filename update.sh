@@ -55,6 +55,8 @@ then
   exit 1
 fi
 
+docker exec -it laravel_app php artisan migrate
+
 echo -e $GREEN'done updating the server'$NC
 echo 'check always up to date versions on: https://beta.esac.nl/storage/versions.txt'
 

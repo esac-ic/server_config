@@ -13,14 +13,15 @@ Certificaten komen van [LetsEncrypt](https://letsencrypt.org/) een project wat g
 
 ## install
 Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
-1. installeer [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) en Docker-compose (apt-get install docker-compose)
-2. maak een gebruiker "deploy" en geef deze root access
-3. clone dit project met ```git clone https://github.com/esac-ic/server_setup.git```
-4. zet de /storage map in de home directory van de gebruiker deploy 
+1. creer een nieuwe docker droplet via digitalocean, of als je geen digitalocean gebruikt installeer dan [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) + docker compose op je server
+2. maak een gebruiker "deploy" en geef deze toegang tot docker: ```useradd -aG deploy && groupadd -aG docker deploy```
+3. clone dit project in home folder met ```git init && git remote add origin https://github.com/esac-ic/server_setup.git && git pull origin master```
+4. kopieer de /storage map van de backup op de server samen met de mysql data dump en de .env file
 5. start ```init.sh``` om de rechten goed te zetten van de /storage map en de rest van de repository 
-6. run het script om certificaten te genereren. een vereist is dat het domein esac.nl naar de server verwijst waar je dit script op draait. dit script maakt 2 containers uit een andere docker compose file aan met de configuratie die een submap openzet voor validatie ```init-letsenscript.sh```
+6. run het script om certificaten te genereren. een vereist is dat het domein esac.nl naar de server verwijst waar je dit script op draait. dit script maakt 2 containers uit een andere docker compose file aan met de configuratie die een submap openzet voor validatie ```init-letsenscript.sh``` indien je niet esac.nl gebruikt maar een ander domein pas dan de waarde aan in ```init-letsencrypt.sh```
 7. start de server ```start.sh``` de eerste keer dat je de server draait zal hij de initiele versie pakken, het kan zijn dat deze niet meer werkt, kijk dan in de [docker hub](https://hub.docker.com/repository/docker/esac/website) wat de laatste productie versie is en zet deze versie in ```/versions/website```
-8. zet de mysql backup terug, hiervoor moet je eerst mariadb-client installeren op de laravel container en de backup in de /storage folder zetten. ```docker exec -it laravel_app 'apt-get -y update && apt-get install -y mariadb-client && mysql -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD $DB_DATABASE < storage/<backup_file.sql>'``` mariadb-client is er weer vanaf bij de eerstvolgende reboot.
+8. zet de mysql backup terug, hiervoor moet je eerst mariadb-client installeren op de laravel container en de backup in de /storage folder zetten. ```docker exec -it laravel_app bash -c 'apt-get -y update; apt-get install -y mariadb-client; mysql -h "$DB_HOST" -u "$DB_USERNAME" -P "$DB_PORT" -p"$DB_PASSWORD" "$DB_DATABASE" < storage/20200125_esac_db.sql'``` mariadb-client is er weer vanaf bij de eerstvolgende reboot.
+9. goeie kans dat de nginx image nog geen tls 1.3 support, dan krijg je een error in gegenereerde files, om dit te fixen: ```sed -i "s/ssl_protocols TLSv1.2 TLSv1.3/ssl_protocols TLSv1.2/g;" certs/conf/options-ssl-nginx.conf```
 
 That's it, nu zou alles moeten werken.
 	

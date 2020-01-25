@@ -51,7 +51,6 @@ services:
     container_name: esac_database
     env_file:
       - .env
-      -
   #lighthouse ci server
   lhci:
     container_name: lhci_server
