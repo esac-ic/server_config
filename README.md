@@ -13,8 +13,7 @@ Certificaten komen van [LetsEncrypt](https://letsencrypt.org/) een project wat g
 
 ## install
 Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
-1. installeer [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) en Docker-compose (apt-get install docker-compose)
-** creer een nieuwe docker droplet via digitalocean, of als je geen digitalocean gebruikt installeer dan ee
+1. creer een nieuwe docker droplet via digitalocean, of als je geen digitalocean gebruikt installeer dan [docker](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1) + docker compose op je server
 2. maak een gebruiker "deploy" en geef deze toegang tot docker: ```useradd -aG deploy && groupadd -aG docker deploy```
 3. clone dit project in home folder met ```git init && git remote add origin https://github.com/esac-ic/server_setup.git && git pull origin master```
 4. kopieer de /storage map van de backup op de server samen met de mysql data dump en de .env file
