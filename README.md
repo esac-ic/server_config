@@ -22,7 +22,7 @@ Deze stappen moet je uitvoeren voordat je aan de server setup kan beginnen
 7. start de server ```start.sh``` de eerste keer dat je de server draait zal hij de initiele versie pakken, het kan zijn dat deze niet meer werkt, kijk dan in de [docker hub](https://hub.docker.com/repository/docker/esac/website) wat de laatste productie versie is en zet deze versie in ```/versions/website```
 8. zet de mysql backup terug, hiervoor moet je eerst mariadb-client installeren op de laravel container en de backup in de /storage folder zetten. ```docker exec -it laravel_app bash -c 'apt-get -y update; apt-get install -y mariadb-client; mysql -h "$DB_HOST" -u "$DB_USERNAME" -P "$DB_PORT" -p"$DB_PASSWORD" "$DB_DATABASE" < storage/20200125_esac_db.sql'``` mariadb-client is er weer vanaf bij de eerstvolgende reboot.
 9. goeie kans dat de nginx image nog geen tls 1.3 support, dan krijg je een error in gegenereerde files, om dit te fixen: ```sed -i "s/ssl_protocols TLSv1.2 TLSv1.3/ssl_protocols TLSv1.2/g;" certs/conf/options-ssl-nginx.conf```
-10. zet het startup script in de cronjobs: ```crontab -e```
+10. zet het startup script in de cronjobs: ```crontab -e```, voeg  toe: ```@reboot /home/ic/start.sh```
 11. Tot slot, zorg dat de firewall goed staat ```ufw enable``` en dat de root login uit staat. 
 That's it, nu zou alles moeten werken.
 	
