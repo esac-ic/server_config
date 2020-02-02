@@ -2,7 +2,7 @@ version: '2'
 
 services:
 
-  #  The Application
+  # The Application
   app:
     container_name: laravel_app
     image: esac/website:$ESAC_VERSION
@@ -35,7 +35,7 @@ services:
       - 443:443
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
 
-  #certbot
+  # Certbot
   certbot:
     image: certbot/certbot
     volumes:
@@ -43,7 +43,7 @@ services:
       - ./certs/www:/var/www/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
-   #The Database
+  # The Database
   database:
     image: mysql:5.7
     volumes:
@@ -51,7 +51,8 @@ services:
     container_name: esac_database
     env_file:
       - .env
-  #lighthouse ci server
+
+  # Lighthouse ci server
   lhci:
     container_name: lhci_server
     image: patrickhulce/lhci-server
@@ -59,8 +60,22 @@ services:
       - lhci-data:/data
     ports:
       - 9001:9001
-    # redis
 
+  # Backup
+  periodic-backup:
+    build: backup-container
+    container_name: server-backup
+    env_file:
+      - .env
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./backups:/backups
+#      - /opt/mysql/backup:/opt/mysql/backup
+      - ./storage:/storage
+    command: crond -f -d 8
+    restart: always
+
+  # Redis cache
   cache:
     image: redis:3.0-alpine
 
