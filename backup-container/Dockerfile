@@ -6,5 +6,4 @@ RUN chmod u+x /etc/periodic/15min/backup
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache mariadb-client && \
-    chmod a+x /etc/periodic/daily/*
+    apk add --no-cache mariadb-client
