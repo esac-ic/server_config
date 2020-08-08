@@ -68,11 +68,11 @@ server {
     include h5bp/basic.conf;
 
     location / {
-        try_files $uri /index.php?$args;
         proxy_pass  http://__domain__;
         proxy_set_header    Host                $http_host;
         proxy_set_header    X-Real-IP           $remote_addr;
         proxy_set_header    X-Forwarded-For     $proxy_add_x_forwarded_for;
+        try_files $uri /index.php?$args;
     }
 
     location ~ \.php$ {
