@@ -1,7 +1,7 @@
 #!/bin/sh
 dt=$(date '+%Y%m%d');
 cd /backups
-mysqldump -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD --databases $DB_DATABASE >
+mysqldump -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD --databases $DB_DATABASE > $DB_DATABASE"_"${dt}.sql
 
 
 #compressing the storage directory
