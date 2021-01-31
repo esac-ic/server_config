@@ -19,7 +19,4 @@ export ESAC_VERSION=$ESAC_VERSION
 #updating the public folder
 docker exec -it laravel_app cp -R public_backup/. public/
 
-#updating the public folder
-docker exec -it laravel_app cp -R public_backup/. public/
-
 echo -e $GREEN'done updating the server'$NC
