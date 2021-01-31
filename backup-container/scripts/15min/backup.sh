@@ -1,6 +1,5 @@
-#!/bin/sh
 dt=$(date '+%Y%m%d');
-cd /backups
+
 mysqldump -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD --databases $DB_DATABASE > $DB_DATABASE"_"${dt}.sql
 
 
@@ -11,6 +10,6 @@ mysqldump -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD --databases $DB
 #-f : Archive File name
 tar -zcvf "storage_"$dt".gz" /storage
 
-#copying files to the backup folder
-#cp "/etc/periodic/daily/storage_"$dt".gz" /backups
-#cp /etc/periodic/daily/$DB_DATABASE"_"${dt}.sql /backups
+#copying files to the backup.sh folder
+cp "storage_"$dt".gz" /backups
+cp $DB_DATABASE"_"${dt}.sql /backups
