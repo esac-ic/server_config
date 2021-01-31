@@ -64,7 +64,7 @@ services:
   # Backup
   periodic-backup:
     build: backup-container
-    container_name: server_backup
+    container_name: server-backup
     env_file:
       - .env
     volumes:
