@@ -2,7 +2,7 @@ FROM alpine:latest
 
 COPY ./scripts/15min/* /etc/periodic/15min
 
-RUN chmod u+x /etc/periodic/15min/backup/*
+RUN chmod u+x /etc/periodic/15min/*
 
 RUN apk update && \
     apk upgrade && \
