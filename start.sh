@@ -14,7 +14,6 @@ echo $(date) 'start command ran, using versions website:'$ESAC_VERSION 'nginx:'$
 export ESAC_VERSION=$ESAC_VERSION
 
 /usr/local/bin/docker-compose up -d
-#/usr/local/bin/docker-compose up --force-recreate -d web
 #/usr/bin/docker-compose up -d
 
 #updating the public folder
