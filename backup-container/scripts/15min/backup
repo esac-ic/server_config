@@ -16,5 +16,5 @@ tar -zcvf "storage_"$dt".gz" /storage
 #cp /etc/periodic/daily/$DB_DATABASE"_"${dt}.sql /backups
 
 #delete's backups in storage folder older that 14 days
-cd /
+cd /home/ic
 find ./backups -type f -mtime +14 -delete
