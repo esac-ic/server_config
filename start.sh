@@ -14,7 +14,7 @@ echo $(date) 'start command ran, using versions website:'$ESAC_VERSION 'nginx:'$
 export ESAC_VERSION=$ESAC_VERSION
 
 /usr/local/bin/docker-compose up -d
-#/usr/local/bin/docker-compose up --force-recreate -d web
+/usr/local/bin/docker-compose up --force-recreate -d web
 
 #updating the public folder
 docker exec -it laravel_app cp -R public_backup/. public/

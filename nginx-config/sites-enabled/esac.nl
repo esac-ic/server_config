@@ -14,13 +14,17 @@ server {
   server_name __domain__ www.esac.nl esac.alpenclub.nl esac.climbing.nl;
 
   # location for certbot to get challenge
-  #location /.well-known/acme-challenge/ {
-  #    root /var/www/certbot;
-  #}
+  location /.well-known/acme-challenge/ {
+    default_type "text/plain";   
+    root /var/www/certbot;
+  }
   # and redirect to the https host (declared below)
   # avoiding http://www -> https://www -> https:// chain.
-  return 301 https://__domain__$request_uri;
+  location / {
+    return 301 https://__domain__$request_uri;
+  }
 }
+
 
 
 server {
