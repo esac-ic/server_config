@@ -1,8 +1,8 @@
 FROM alpine:latest
 
-COPY ./scripts/15min/* /etc/periodic/15min
+COPY ./scripts/daily/* /etc/periodic/daily
 
-RUN chmod u+x /etc/periodic/15min/backup
+RUN chmod u+x /etc/periodic/daily/backup
 
 RUN apk update && \
     apk upgrade && \
