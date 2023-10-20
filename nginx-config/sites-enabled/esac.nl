@@ -15,7 +15,7 @@ server {
 
   # location for certbot to get challenge
   location /.well-known/acme-challenge/ {
-    default_type "text/plain";   
+    default_type "text/plain";
     root /var/www/certbot;
   }
   # and redirect to the https host (declared below)

@@ -34,6 +34,7 @@ services:
       - 80:80
       - 443:443
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    depends_on: [app]
 
   # Certbot
   certbot:
@@ -64,7 +65,7 @@ services:
   # Backup
   periodic-backup:
     build: backup-container
-    container_name: server_backup
+    container_name: server-backup
     env_file:
       - .env
     volumes:
