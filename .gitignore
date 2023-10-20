@@ -1,6 +1,13 @@
+.*
 .idea
 .env
 /versions
 update_log.txt
 versions/website
 init-letsencrypt.sh
+/storage/app
+/storage/framework
+/storage/logs
+/temp
+/data
+/encrypt-test
