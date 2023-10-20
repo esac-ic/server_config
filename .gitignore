@@ -1,3 +1,8 @@
-.idea
-.env
+.*
 /versions
+/storage/app
+/storage/framework
+/storage/logs
+/temp
+/data
+/encrypt-test
