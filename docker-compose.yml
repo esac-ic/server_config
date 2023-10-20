@@ -1,86 +1,83 @@
-version: '2'
+version: '3.8'
+
+x-logging: &default-logging
+  options:
+    max-size: "50m"
+
+x-default-volumes: &default-volumes
+  - ./certs/conf:/etc/letsencrypt
+  - ./certs/www:/var/www/certbot
 
 services:
-
   # The Application
   app:
-    container_name: laravel_app
-    image: esac/website:$ESAC_VERSION
+    image: esac/website:${ESAC_VERSION}
     volumes:
       - ./storage:/var/www/storage
       - laravel_public_folder:/var/www/public
-    env_file:
-      - ".env"
     environment:
-      - "REDIS_HOST=cache"
+      REDIS_HOST: cache
+    env_file:
+      - .env
     entrypoint: php-fpm
+    logging: *default-logging
 
   # The Web Server
   web:
-    container_name: nginx_server
-    env_file:
-      - .env
     build:
       context: ./nginx-config
       dockerfile: Dockerfile
       args:
-        NGINX_DOMAIN: $NGINX_DOMAIN
+        NGINX_DOMAIN: ${NGINX_DOMAIN}
     volumes:
       - laravel_public_folder:/var/www/public
-      - ./storage/app/public/:/var/www/public/storage
+      - ./storage/app/public:/var/www/public/storage
       - ./certs/conf:/etc/letsencrypt
       - ./certs/www:/var/www/certbot
     ports:
       - 80:80
       - 443:443
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
-    depends_on: [app]
+    command: /bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g "daemon off;"'
+    env_file:
+      - .env
+    logging: *default-logging
+    depends_on:
+      - app
 
   # Certbot
   certbot:
     image: certbot/certbot
-    volumes:
-      - ./certs/conf:/etc/letsencrypt
-      - ./certs/www:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    volumes: *default-volumes
+    entrypoint: /bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'
+    logging: *default-logging
 
   # The Database
   database:
-    image: mysql:5.7
+    image: mysql:8.0
     volumes:
       - esac_database:/var/lib/mysql
-    container_name: esac_database
     env_file:
       - .env
-
-  # Lighthouse ci server
-  lhci:
-    container_name: lhci_server
-    image: patrickhulce/lhci-server
-    volumes:
-      - lhci-data:/data
-    ports:
-      - 9001:9001
+    logging: *default-logging
 
   # Backup
   periodic-backup:
     build: backup-container
-    container_name: server-backup
     env_file:
       - .env
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./backups:/backups
-#      - /opt/mysql/backup:/opt/mysql/backup
       - ./storage:/storage
     command: crond -f -d 8
     restart: always
+    logging: *default-logging
 
   # Redis cache
   cache:
     image: redis:3.0-alpine
+    logging: *default-logging
 
 volumes:
   esac_database:
   laravel_public_folder:
-  lhci-data:
