@@ -1,20 +1,31 @@
-#!/bin/sh
-dt=$(date '+%Y%m%d');
-cd /backups
-mysqldump -h $DB_HOST -u $DB_USERNAME -P $DB_PORT -p$DB_PASSWORD --databases $DB_DATABASE > $DB_DATABASE"_"${dt}.sql
+#!/bin/bash
 
+set -e
 
-#compressing the storage directory
-#-z : Compress archive using gzip program in Linux or Unix
-#-c : Create archive on Linux
-#-v : Verbose i.e display progress while creating archive
-#-f : Archive File name
-tar -zcvf "storage_"$dt".gz" /storage
+dt=$(date '+%Y%m%d')
+backup_path="/backups"
+storage_path="/storage"
+backup_name="${DB_DATABASE}_${dt}.sql"
+compressed_backup="storage_${dt}.gz"
 
-#copying files to the backup folder
-#cp "/etc/periodic/daily/storage_"$dt".gz" /backups
-#cp /etc/periodic/daily/$DB_DATABASE"_"${dt}.sql /backups
+# Check for required environment variables and exit if not set.
+required_vars="DB_HOST DB_USERNAME DB_PORT DB_PASSWORD DB_DATABASE"
+for var in $required_vars; do
+    if [ -z "$(eval echo \$$var)" ]; then
+        echo "Error: $var environment variable not set." >&2
+        exit 1
+    fi
+done
 
-#delete's backups in storage folder older that 14 days
-cd /home/ic
-find ./backups -type f -mtime +14 -delete
+# Navigate to the backup directory.
+cd "$backup_path"
+
+# Perform the MySQL dump.
+# Using --single-transaction is a good practice with InnoDB to avoid locking the tables.
+mysqldump --single-transaction -h "$DB_HOST" -u "$DB_USERNAME" -P "$DB_PORT" -p"$DB_PASSWORD" --databases "$DB_DATABASE" > "$backup_name"
+
+# Compress the storage directory.
+tar -zcf "$compressed_backup" "$storage_path"
+
+# Delete backups older than 14 days.
+find . -type f -name "*.gz" -mtime +14 -print -delete

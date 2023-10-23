@@ -1,22 +1,34 @@
-#run this command when starting the server, this ensures the correct versions are being used
+#!/bin/bash
 
-#define colors
+# Define colors for output
 GREEN='\033[0;32m'
-NC='\033[0m'
+NC='\033[0m' # No Color
 RED='\033[0;31m'
 PURPLE='\033[0;35m'
 
+# Function to log messages with a timestamp
+log_message() {
+    echo "$(date) $1" >> update_log.txt
+}
+
+# Exit script on any error
+set -e
+
+# Fetch the ESAC version
 ESAC_VERSION=$(cat versions/website)
 
-echo $(date) 'start command ran, using versions website:'$ESAC_VERSION 'nginx:'$NGINX_VERSION >> 'update_log.txt'
+# Log the start command
+log_message "Start command ran, using versions - website: ${ESAC_VERSION}, nginx: ${NGINX_VERSION}"
 
-#export to environment variables
-export ESAC_VERSION=$ESAC_VERSION
+# Export version as an environment variable
+export ESAC_VERSION
 
+# Run docker-compose commands
 /usr/local/bin/docker-compose up -d --build
-#/usr/bin/docker-compose up -d --build
+/usr/local/bin/docker-compose up --force-recreate -d web
 
-#updating the public folder
+# Update the public folder from backup
 docker exec -it laravel_app cp -R public_backup/. public/
 
-echo -e $GREEN'done updating the server'$NC
+# Indicate completion
+echo -e "${GREEN}Server update completed.${NC}"

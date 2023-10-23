@@ -1,66 +1,61 @@
-#define colors
+#!/bin/bash
+
+# Define colors
 GREEN='\033[0;32m'
-NC='\033[0m'
+NC='\033[0m' # No Color
 RED='\033[0;31m'
 PURPLE='\033[0;35m'
 
-#write command log
-echo $(date) 'command ran with parameters'$1 ${@:1}  >> 'update_log.txt'
+# Function to log messages with timestamp
+log_message() {
+    echo "$(date) $1" >> update_log.txt
+}
 
+# Exit script on any error
+set -e
 
-if [[ $1 == 'website' ]]
-then
-  ESAC_VERSION=$2
-else
-  exit 1
+# Log the command
+log_message "Command ran with parameters: $*"
+
+# Check for 'website' argument
+if [[ $1 != "website" ]]; then
+    echo -e "${RED}First argument needs to be 'website'${NC}"
+    exit 1
 fi
 
-
+ESAC_VERSION=$2
 COMMIT_USER=$3
 COMMIT_MSG=$4
 COMMIT_DATE=$5
 COMMIT_BRANCH=$6
 TRAVIS_COMMIT="${@:2}"
-echo $TRAVIS_COMMIT
 
-echo -e $PURPLE'Start of updating server, esac version: '$ESAC_VERSION' and nginx version:' $NGINX_VERSION $NC
-#log to file
-echo $(date) 'website:'$ESAC_VERSION 'commit: '$TRAVIS_COMMIT >> 'update_log.txt'
+# Log start of update
+echo -e "${PURPLE}Start of updating server, esac version: ${ESAC_VERSION}${NC}"
+log_message "website: ${ESAC_VERSION}, commit: ${TRAVIS_COMMIT}"
 
-#update versions to file
-echo $ESAC_VERSION > 'versions/website'
+# Update version file
+echo "${ESAC_VERSION}" > 'versions/website'
 
-#write to versions file exposed on the website
-echo -e 'website image: esac/website:'$ESAC_VERSION \
-'\rdeploy branch: '$COMMIT_BRANCH \
-'\rcommitter: '$COMMIT_USER \
-'\rcommit message:' $COMMIT_MSG \
-'\rcommit date: '$COMMIT_DATE \
-'\rdeploy date: '$(TZ=CET date -R) \
-> 'storage/app/public/versions.txt'
+# Write detailed version info
+{
+  echo "website image: esac/website:${ESAC_VERSION}"
+  echo "deploy branch: ${COMMIT_BRANCH}"
+  echo "committer: ${COMMIT_USER}"
+  echo "commit message: ${COMMIT_MSG}"
+  echo "commit date: ${COMMIT_DATE}"
+  echo "deploy date: $(TZ=CET date -R)"
+} > 'storage/app/public/versions.txt'
 
-#export to environment variables
-export ESAC_VERSION=$ESAC_VERSION
+# Export version as environment variable
+export ESAC_VERSION
 
-#prune the docker images
+# Prune Docker images
 docker system prune --all -f
 
-#run docker compose with new values
+# Start services defined in docker-compose.yml
 docker-compose up -d
 
-#exit the update script of the compose command fails
-dockercomposestatus=$?
-if [ $dockercomposestatus == '1' ]
-then
-  exit 1
-fi
-
-docker exec -it laravel_app php artisan migrate
-docker exec -it laravel_app cp -R public_backup/. public/
-
-echo -e $GREEN'done updating the server'$NC
-echo 'check always up to date versions on: https://beta.esac.nl/storage/versions.txt'
-
-#record which version is being deployed when in a seperate file
-#rerun docker compose command
-#document that this is only for feature changes, database changes are not covered
+# Run migrations and copy public backup
+docker exec laravel_app php artisan migrate --force
+docker exec laravel_app cp -R public_backup/. public/
