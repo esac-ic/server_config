@@ -1,11 +1,10 @@
 FROM nginx:1.25.2-bookworm
 
+COPY . /etc/nginx
+
 RUN echo "NGINX_DOMAIN set to esac.nl" && \
-    mkdir -p /etc/nginx/sites-available/ && \
-    ln -s /etc/nginx/sites-enabled/*** /etc/nginx/sites-available/ && \
+    ln -s /etc/nginx/sites-enabled/esac.nl /etc/nginx/sites-available/ && \
     rm -f /etc/nginx/conf.d/default.conf && \
     ln -sf /dev/stdout /var/log/nginx/access.log && \
     ln -sf /dev/stderr /var/log/nginx/error.log && \
-    sed -i "s/__domain__/esac.nl/g" /etc/nginx/sites-enabled/***
-
-COPY . /etc/nginx
+    sed -i "s/__domain__/esac.nl/g" /etc/nginx/sites-enabled/esac.nl
