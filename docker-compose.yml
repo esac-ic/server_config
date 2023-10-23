@@ -80,4 +80,8 @@ services:
 
 volumes:
   esac_database:
+    external:
+      name: ic_esac_database
   laravel_public_folder:
+    external:
+      name: ic_laravel_public_folder
