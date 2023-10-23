@@ -54,7 +54,7 @@ export ESAC_VERSION
 docker system prune --all -f
 
 # Start services defined in docker-compose.yml
-docker-compose up -d
+docker compose up -d
 
 # Run migrations and copy public backup
 docker exec laravel_app php artisan migrate --force

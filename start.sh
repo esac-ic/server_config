@@ -23,9 +23,9 @@ log_message "Start command ran, using versions - website: ${ESAC_VERSION}, nginx
 # Export version as an environment variable
 export ESAC_VERSION
 
-# Run docker-compose commands
-/usr/local/bin/docker-compose up -d --build
-/usr/local/bin/docker-compose up --force-recreate -d web
+# Run docker compose commands
+docker compose up -d --build
+docker compose up --force-recreate -d web
 
 # Update the public folder from backup
 docker exec -it laravel_app cp -R public_backup/. public/

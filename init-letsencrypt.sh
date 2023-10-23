@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Check if docker-compose is installed
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo 'Error: docker-compose is not installed.' >&2
+# Check if docker is installed
+if ! [ -x "$(command -v docker)" ]; then
+  echo 'Error: docker is not installed.' >&2
   exit 1
 fi
 
@@ -38,7 +38,7 @@ fi
 echo "### Creating dummy certificate for ${domains[0]} ..."
 path="/etc/letsencrypt/live/${domains[0]}"
 mkdir -p "$data_path/conf/live/${domains[0]}"
-docker-compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
+docker compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
   openssl req -x509 -nodes -newkey rsa:$rsa_key_size -days 1\
     -keyout '$path/privkey.pem' \
     -out '$path/fullchain.pem' \
@@ -47,12 +47,12 @@ echo
 
 # Start nginx
 echo "### Starting nginx ..."
-docker-compose -f nginx-certbot/docker-compose.yml up --force-recreate -d nginx
+docker compose -f nginx-certbot/docker-compose.yml up --force-recreate -d nginx
 echo
 
 # Remove the dummy certificate
 echo "### Deleting dummy certificate for ${domains[0]} ..."
-docker-compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
+docker compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
   rm -Rf /etc/letsencrypt/live/${domains[0]} && \
   rm -Rf /etc/letsencrypt/archive/${domains[0]} && \
   rm -Rf /etc/letsencrypt/renewal/${domains[0]}.conf" certbot
@@ -72,7 +72,7 @@ esac
 
 if [ $staging != "0" ]; then staging_arg="--staging"; fi
 
-docker-compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
+docker compose -f nginx-certbot/docker-compose.yml run --rm --entrypoint "\
   certbot certonly --webroot -w /var/www/certbot \
     $staging_arg \
     $email_arg \
@@ -84,5 +84,5 @@ echo
 
 # Reload nginx
 echo "### Reloading nginx ..."
-docker-compose -f nginx-certbot/docker-compose.yml exec nginx nginx -s reload
-docker-compose -f nginx-certbot/docker-compose.yml down
+docker compose -f nginx-certbot/docker-compose.yml exec nginx nginx -s reload
+docker compose -f nginx-certbot/docker-compose.yml down
