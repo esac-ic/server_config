@@ -1,4 +1,4 @@
-FROM nginx:1.25.2-bookworm
+FROM nginx:1.25-alpine
 
 COPY . /etc/nginx
 
