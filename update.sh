@@ -57,5 +57,5 @@ docker system prune --all -f
 docker compose up -d
 
 # Run migrations and copy public backup
-docker exec laravel_app php artisan migrate --force
-docker exec laravel_app cp -R public_backup/. public/
+docker exec ic-app-1 php artisan migrate --force
+docker exec ic-app-1 cp -R public_backup/. public/

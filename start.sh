@@ -28,7 +28,7 @@ docker compose up -d --build
 docker compose up --force-recreate -d web
 
 # Update the public folder from backup
-docker exec -it laravel_app cp -R public_backup/. public/
+docker exec -it ic-app-1 cp -R public_backup/. public/
 
 # Indicate completion
 echo -e "${GREEN}Server update completed.${NC}"
