@@ -1,31 +1,13 @@
-#!/bin/bash
-
-set -e
+#!/bin/sh
 
 dt=$(date '+%Y%m%d')
-backup_path="/backups"
-storage_path="/storage"
-backup_name="${DB_DATABASE}_${dt}.sql"
-compressed_backup="storage_${dt}.gz"
-
-# Check for required environment variables and exit if not set.
-required_vars="DB_HOST DB_USERNAME DB_PORT DB_PASSWORD DB_DATABASE"
-for var in $required_vars; do
-    if [ -z "$(eval echo \$$var)" ]; then
-        echo "Error: $var environment variable not set." >&2
-        exit 1
-    fi
-done
-
-# Navigate to the backup directory.
-cd "$backup_path"
+cd /backups
 
 # Perform the MySQL dump.
-# Using --single-transaction is a good practice with InnoDB to avoid locking the tables.
-mysqldump --single-transaction -h "$DB_HOST" -u "$DB_USERNAME" -P "$DB_PORT" -p"$DB_PASSWORD" --databases "$DB_DATABASE" > "$backup_name"
+mysqldump -h "$DB_HOST" -u "$DB_USERNAME" -P "$DB_PORT" -p"$DB_PASSWORD" --databases "$DB_DATABASE" > "${DB_DATABASE}_${dt}.sql"
 
 # Compress the storage directory.
-tar -zcf "$compressed_backup" "$storage_path"
+tar -zcf "storage_${dt}.gz" /storage
 
-# Delete backups older than 14 days.
-find . -type f -name "*.gz" -mtime +14 -print -delete
+# Delete backups older than 14 days in /backups directory.
+find . -type f -name "*.gz" -mtime +14 -delete
