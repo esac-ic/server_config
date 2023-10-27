@@ -43,6 +43,7 @@ services:
     logging: *default-logging
     depends_on:
       - app
+      - database
 
   # Certbot
   certbot:
