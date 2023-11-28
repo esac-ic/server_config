@@ -5,5 +5,5 @@ RUN chmod u+x /etc/periodic/daily/backup
 
 RUN apk update && \
     apk upgrade && \
-    apk add --no-cache mariadb-client && \
+    apk add --no-cache mysql-client && \
     rm -rf /var/cache/apk/*
