@@ -60,6 +60,12 @@ services:
     image: mysql:8.0
     volumes:
       - esac_database:/var/lib/mysql
+    command: >
+      --innodb-buffer-pool-size=200M 
+      --key-buffer-size=16M 
+      --max-connections=50
+      --innodb-log-buffer-size=8M
+      --table-open-cache=400
     env_file:
       - .env
     restart: always
